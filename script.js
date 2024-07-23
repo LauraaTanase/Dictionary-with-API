@@ -1,6 +1,14 @@
+//TODO LIST:
+//1.Sa fac o functie sa pot adauga un cuvant la favorite
+//2.Sa fac un buton in modalul de history unde pot sa sterg history-ul
+//3.Sa mai lucrez la design-ul paginilor
+//Pup paaaa
+
+
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
 const resultsContainer = document.getElementById('results');
+const historyButton =document.getElementById("historyButton")
 
 searchButton.addEventListener('click', () => {
   const query = searchInput.value.trim();
@@ -9,31 +17,54 @@ searchButton.addEventListener('click', () => {
   }
 });
 
+
+
+//TODO EROAARE AICII!!!
+historyButton.addEventListener('click', () => {
+    displayHistory(); // Populate modal with search history
+    const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
+    historyModal.show();
+  });
+
+
 // Function to search the dictionary
 function searchDictionary(query) {
   fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(enData => {
-      console.log('English data:', enData);
-
-      // Check if data is returned and process accordingly
-      if (!enData.length || (enData.title && enData.title === 'No Definitions Found')) {
-        resultsContainer.innerHTML = '<p class="text-danger">No definitions found.</p>';
-      } else {
-        displayResults(enData);
-      }
+    .then(response => response.json())
+    .then(data => {
+      displayResults(data);
+      addToHistory(query); // Add the search query to history
     })
     .catch(error => {
       console.error('Error:', error);
       resultsContainer.innerHTML = '<p class="text-danger">No definitions found.</p>';
     });
 }
+// Add the search query to history
+function addToHistory(query) {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    if (!history.includes(query)) {
+      history.push(query);
+      localStorage.setItem('searchHistory', JSON.stringify(history));
+    }
+  }
 
+  // Display search history in the modal
+function displayHistory() {
+    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = '';
+  
+    if (history.length === 0) {
+      historyList.innerHTML = '<p>No history available.</p>';
+    } else {
+      history.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = item;
+        historyList.appendChild(listItem);
+      });
+    }
+  }
 // Function to display results
 function displayResults(data) {
   resultsContainer.innerHTML = '';

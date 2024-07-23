@@ -44,18 +44,44 @@
   </nav>
 
   <div class="container my-5">
-    <div class="input-group">
-      <input
-        type="text"
-        id="searchInput"
-        class="form-control"
-        placeholder="e.g. plane"
-      />
-      <button type="search" class="btn btn-primary" id="searchButton">
-        Search
-      </button>
-    </div>
+    <div class="input-group mb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control"
+          placeholder="e.g. plane"
+        />
+        <button type="button" class="btn btn-secondary" id="historyButton">
+          History
+        </button>
+        <button type="button" class="btn btn-primary" id="searchButton">
+          Search
+        </button>
+      </div>
 
+      <!-- Modal History -->
+<!-- Modal History -->
+<div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="historyModalLabel">Search History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="historyList" class="list-unstyled">
+            <!-- Search history items will be appended here -->
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
     <div id="results" class="my-3">
       <!-- Aici vor fi afișate rezultatele căutării -->
     </div>
